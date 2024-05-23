@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2></h2>
+            <a href="#">AIECHAT</a>
+            <a href="sentiment.html">Sentiment Analysis</a>
+        </div>
+        <div class="main-content">
+            <div class="chatbox">
+                <div class="chatbox-header">AIECHAT</div>
+                <div class="chatbox-body chat-list"></div>
+                <div class="chatbox-footer">
+                    <textarea placeholder="Type a message..."></textarea>
+                    <button id="sendButton" class="send-button" disabled>
+                        <img src="../images/send-icon.png" alt="Send"> 
+                    </button>                    
+                </div>
+            </div>
+        </div>
+        <button class="menu-button" id="menuButton">
+            <img src="../images/menu-icon.png" alt="Menu"> 
+        </button>
+    </div>
+
+    <script src="../scripts/fuzzball.min.js"></script>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+    }
+    </script>
+
+    <!-- Load script.js -->
+    <script src="../scripts/script.js" type="module"></script>
+</body>
+</html>
