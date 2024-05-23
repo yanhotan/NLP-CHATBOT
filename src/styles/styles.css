@@ -74,6 +74,38 @@ html, body {
     position: relative;
 }
 
+.chatbox.hidden {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.faq-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.faq-button {
+    flex: 1 1 calc(50% - 10px); /* Four buttons in a 2x2 grid with 10px gap */
+    padding: 10px;
+    background-color: #fafafa;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.faq-button:hover {
+    background-color: #d3d3d3; /* Darker shade on hover */
+}
+
 .chatbox::after {
     content: ''; /* Add content for pseudo-element */
     position: absolute; /* Position the pseudo-element */
@@ -83,7 +115,7 @@ html, body {
     height: 100%;
     transform: translateX(5%);
     background-image: url('../images/bot-profile.png'); /* Set the background image */
-    opacity: 0.2; /* Adjust opacity to make it appear as a watermark */
+    opacity: 0.08; /* Adjust opacity to make it appear as a watermark */
     pointer-events: none; /* Ensure the pseudo-element doesn't interfere with mouse events */
 }
 
@@ -143,6 +175,7 @@ html, body {
     display: flex;
     align-items: center; /* Align items vertically */
     border-top: 1px solid #ccc;
+    padding: 10px 0;
 }
 
 .chatbox-footer textarea {
@@ -260,3 +293,4 @@ opacity: 1;
 transform: translateY(0);
 }
 }
+

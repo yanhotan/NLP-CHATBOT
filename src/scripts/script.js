@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const chatboxBody = document.querySelector(".chatbox-body");
 const chatInput = document.querySelector(".chatbox-footer textarea");
-const sendChatBtn = document.querySelector(".chatbox-footer button");
+const sendChatBtn = document.getElementById("sendButton");
 const menuButton = document.getElementById("menuButton");
 const sidebar = document.querySelector(".sidebar");
 
@@ -15,12 +15,61 @@ fetch('../json/faqs.json')
     .then(response => response.json())
     .then(data => {
         faqs = data;
+        displayFaqButtons(data);
     })
     .catch(error => {
         console.error("Error fetching FAQs:", error);
     });
 
 const inputInitHeight = chatInput.scrollHeight;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const chatbox = document.querySelector(".chatbox");
+    const sendButton = document.getElementById("sendButton");
+
+    const showChatbox = () => {
+        chatbox.classList.remove("hidden");
+        document.querySelector(".faq-buttons").style.display = "none"; // Hide FAQ buttons after first prompt
+    };
+
+    const faqButtons = document.querySelectorAll(".faq-button");
+    faqButtons.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const message = event.target.textContent;
+            showChatbox();
+            handleChat(message);
+        });
+    });
+
+    chatInput.addEventListener("input", () => {
+        if (chatInput.value.trim()) {
+            sendButton.classList.add("active");
+            sendButton.disabled = false;
+        } else {
+            sendButton.classList.remove("active");
+            sendButton.disabled = true;
+        }
+    });
+
+    sendButton.addEventListener("click", () => {
+        const message = chatInput.value.trim();
+        if (message) {
+            handleChat(message);
+            chatInput.value = "";
+            sendButton.classList.remove("active");
+            sendButton.disabled = true;
+        }
+    });
+});
+
+const addMessage = (sender, message) => {
+    const chatList = document.querySelector(".chat-list");
+    const messageElem = document.createElement("div");
+    messageElem.classList.add("message", sender);
+    messageElem.innerHTML = `<div class="content">${message}</div>`;
+    chatList.appendChild(messageElem);
+    chatList.scrollTop = chatList.scrollHeight; // Scroll to the bottom
+};
 
 const createChatElement = (message, sender) => {
     const messageElement = document.createElement("div");
@@ -29,23 +78,14 @@ const createChatElement = (message, sender) => {
     let content = `<div class="content">${message}</div>`;
     if (sender != "user") {
         content = `<img src="../images/bot-profile.png" alt="Bot">` + content;
+        if (message === "...") {
+            content += '<span class="shining-dots"><span></span><span></span><span></span></span>';
+        }
     }
     messageElement.innerHTML = content;
+    
     return messageElement;
 };
-
-const textarea = document.querySelector('textarea');
-const sendButton = document.getElementById('sendButton');
-
-textarea.addEventListener('input', function() {
-    if (this.value.trim() !== '') {
-        sendButton.classList.add('active');
-        sendButton.disabled = false;
-    } else {
-        sendButton.classList.remove('active');
-        sendButton.disabled = true;
-    }
-});
 
 const generateResponse = async (userMessage) => {
     const genAI = new GoogleGenerativeAI(API_KEY);
@@ -62,18 +102,21 @@ const generateResponse = async (userMessage) => {
     }
 };
 
-const handleChat = async () => {
-    const userMessage = chatInput.value.trim().toLowerCase();
+const handleChat = async (message) => {
+    const userMessage = message || chatInput.value.trim().toLowerCase();
     if (!userMessage) return;
 
-    chatInput.value = "";
-    chatInput.style.height = `${inputInitHeight}px`;
+    const chatbox = document.querySelector(".chatbox");
+    if (chatbox.classList.contains("hidden")) {
+        chatbox.classList.remove("hidden");
+        document.querySelector(".faq-buttons").style.display = "none";
+    }
 
     const userMessageElement = createChatElement(userMessage, "user");
     chatboxBody.appendChild(userMessageElement);
     chatboxBody.scrollTop = chatboxBody.scrollHeight;
 
-    const botMessageElement = createChatElement("Thinking...", "bot");
+    const botMessageElement = createChatElement("...", "bot");
     chatboxBody.appendChild(botMessageElement);
     chatboxBody.scrollTop = chatboxBody.scrollHeight;
 
@@ -90,13 +133,26 @@ chatInput.addEventListener("input", () => {
 chatInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        handleChat();
+        const message = chatInput.value.trim();
+        if (message) {
+            handleChat(message);
+            chatInput.value = "";
+            sendChatBtn.classList.remove("active");
+            sendChatBtn.disabled = true;
+        }
     }
 });
 
-sendChatBtn.addEventListener("click", handleChat);
+sendChatBtn.addEventListener("click", () => {
+    const message = chatInput.value.trim();
+    if (message) {
+        handleChat(message);
+        chatInput.value = "";
+        sendChatBtn.classList.remove("active");
+        sendChatBtn.disabled = true;
+    }
+});
 
-// Toggle sidebar visibility
 menuButton.addEventListener("click", () => {
     sidebar.classList.toggle("sidebar-open");
 });
