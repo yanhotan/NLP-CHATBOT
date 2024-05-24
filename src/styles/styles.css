@@ -1,4 +1,24 @@
-/* Reset body and html to ensure full height */
+.chatbox-container,
+.chatbox-body,
+.chatbox-footer {
+    display: none;
+}
+
+/* Show the chatbox components when active */
+.chatbox.active .chatbox-container,
+.chatbox.active .chatbox-body,
+.chatbox.active .chatbox-footer {
+    display: flex;
+}
+
+/* Override specific components to maintain layout when active */
+.chatbox.active .chatbox-body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -270,6 +290,46 @@ html, body {
     height: 45px; /* Increase height to 45px */
 }
 
+/* General styling reset for buttons */
+.attach-button {
+    background-color: #1A1F4A; /* Background color */
+    border: none;
+    cursor: pointer;
+    width: 40px; /* Set width and height for a circular button */
+    height: 40px;
+    border-radius: 50%; /* Make it circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.4; /* Set initial opacity */
+    transition: opacity 0.3s ease-in-out; /* Transition for opacity */
+    margin-left: 22px; /* Leave a gap of 22px from the left */
+    margin-top: auto; /* Align vertically in the middle */
+    margin-bottom: auto; /* Align vertically in the middle */
+    padding: 0; /* Remove any padding */
+}
+
+.attach-button img {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+    filter: invert(1); /* Invert icon color to white */
+}
+
+.attach-button:hover {
+    opacity: 0.6; /* Increase opacity on hover */
+}
+
+.attach-button.active {
+    opacity: 1; /* Set full opacity when active */
+}
+
+/* Container for the attachment button */
+.attachment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto; /* Align to the left side */
+}
 
 /* Sidebar open state */
 .sidebar-open {
