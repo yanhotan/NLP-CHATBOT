@@ -5,6 +5,8 @@ const chatInput = document.querySelector(".chatbox-footer textarea");
 const sendChatBtn = document.getElementById("sendButton");
 const menuButton = document.getElementById("menuButton");
 const sidebar = document.querySelector(".sidebar");
+const hiddenFileInput = document.getElementById("hiddenFileInput");
+const attachButton = document.getElementById("attachButton");
 
 const API_KEY = "AIzaSyDMJ5A2c8hmDW3ZPirDO6Q51O5K_2mdf3Q"; // Replace with your Gemini API key
 
@@ -28,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendButton = document.getElementById("sendButton");
 
     const showChatbox = () => {
-        chatbox.classList.remove("hidden");
+        chatbox.classList.add("active"); // Show the chatbox
         document.querySelector(".faq-buttons").style.display = "none"; // Hide FAQ buttons after first prompt
     };
 
@@ -78,9 +80,6 @@ const createChatElement = (message, sender) => {
     let content = `<div class="content">${message}</div>`;
     if (sender != "user") {
         content = `<img src="../images/bot-profile.png" alt="Bot">` + content;
-        if (message === "...") {
-            content += '<span class="shining-dots"><span></span><span></span><span></span></span>';
-        }
     }
     messageElement.innerHTML = content;
     
@@ -125,6 +124,14 @@ const handleChat = async (message) => {
     chatboxBody.scrollTop = chatboxBody.scrollHeight;
 };
 
+// Hide FAQ buttons after the first user prompt
+const hideFaqButtons = () => {
+    const faqButtonsContainer = document.querySelector(".faq-buttons");
+    if (faqButtonsContainer) {
+        faqButtonsContainer.style.display = "none";
+    }
+};
+
 chatInput.addEventListener("input", () => {
     chatInput.style.height = `${inputInitHeight}px`;
     chatInput.style.height = `${chatInput.scrollHeight}px`;
@@ -139,6 +146,7 @@ chatInput.addEventListener("keydown", (e) => {
             chatInput.value = "";
             sendChatBtn.classList.remove("active");
             sendChatBtn.disabled = true;
+            hideFaqButtons(); // Hide FAQ buttons
         }
     }
 });
@@ -150,9 +158,40 @@ sendChatBtn.addEventListener("click", () => {
         chatInput.value = "";
         sendChatBtn.classList.remove("active");
         sendChatBtn.disabled = true;
+        hideFaqButtons(); // Hide FAQ buttons
     }
 });
 
 menuButton.addEventListener("click", () => {
     sidebar.classList.toggle("sidebar-open");
 });
+
+attachButton.addEventListener("click", () => {
+    hiddenFileInput.click();
+});
+
+hiddenFileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        uploadFile(file);
+    }
+});
+
+function uploadFile(file) {
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = function(e) {
+        console.log(e.loaded, e.total);
+    }
+    xhr.upload.onload = function(e) {
+        console.log('file upload');
+    }
+
+    xhr.open("POST", "/test/uploadfile.php", true);
+    const formData = new FormData();
+    formData.append("image", file);
+    xhr.send(formData);
+    
+    const fileMessageElement = createChatElement(`File: ${file.name}`, "user");
+    chatboxBody.appendChild(fileMessageElement);
+    chatboxBody.scrollTop = chatboxBody.scrollHeight;
+}

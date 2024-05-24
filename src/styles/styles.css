@@ -212,16 +212,10 @@ html, body {
 }
 
 .chatbox-footer button {
-    background-color: #1A1F4A; /* Updated to the new primary color */
-    color: white;
     border: none;
     padding: 10px 20px;
-    border-bottom-right-radius: 10px;
+    border-radius: 50%;
     cursor: pointer;
-}
-
-.chatbox-footer button:hover {
-    background-color: #0f1530; /* Darker shade of the primary color */
 }
 
 .send-button {
@@ -258,6 +252,40 @@ html, body {
     opacity: 1; /* Set full opacity when active */
 }
 
+.attach-button {
+    background-color: transparent; /* No background color */
+    border: none;
+    cursor: pointer;
+    width: 40px; /* Set width and height for a circular button */
+    height: 40px;
+    border-radius: 50%; /* Make it circular */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Align items in the center, same as send-button */
+    opacity: 0.8; /* Set initial opacity */
+    transition: opacity 0.3s ease-in-out, filter 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Transition for opacity, filter, and background-color */
+    margin-left: 15px; /* Leave a gap of 15px from the left */
+    margin-top: auto; /* Align vertically in the middle */
+    margin-bottom: 15px; /* Align vertically in the middle */
+    padding: 0; /* Remove any padding */
+}
+
+.attach-button img {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+    filter: brightness(0) invert(0); 
+    transition: opacity 0.3s ease-in-out, filter 0.3s ease-in-out; /* Transition for opacity and filter */
+}
+
+.attach-button:hover {
+    opacity: 0.6; 
+    background-color: rgba(211, 211, 211, 0.4); 
+}
+
+.attach-button.active {
+    opacity: 1; /* Set full opacity when active */
+}
+
 /* Menu button */
 .menu-button {
     position: absolute;
@@ -290,47 +318,6 @@ html, body {
 .message.bot img {
     width: 45px; /* Increase width to 45px */
     height: 45px; /* Increase height to 45px */
-}
-
-.attach-button {
-    background-color: #000; /* Background color */
-    border: none;
-    cursor: pointer;
-    width: 40px; /* Set width and height for a circular button */
-    height: 40px;
-    border-radius: 50%; /* Make hover effect circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0.4; /* Set initial opacity */
-    transition: opacity 0.3s ease-in-out; /* Transition for opacity */
-    margin-left: 15px; /* Leave a gap of 15px from the left */
-    margin-top: auto; /* Align vertically in the middle */
-    margin-bottom: 15px; /* Align vertically in the middle */
-    padding: 0; /* Remove any padding */
-}
-
-.attach-button img {
-    width: 20px; /* Adjust icon size */
-    height: 20px;
-    filter: invert(1); /* Invert icon color to white */
-}
-
-.attach-button:hover {
-    opacity: 0.6; /* Increase opacity on hover */
-    border-radius: 50%; /* Make hover effect circular */
-}
-
-.attach-button.active {
-    opacity: 1; /* Set full opacity when active */
-}
-
-/* Container for the attachment button */
-.attachment {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: auto; /* Align to the left side */
 }
 
 /* Sidebar open state */
