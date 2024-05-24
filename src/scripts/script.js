@@ -5,7 +5,6 @@ const chatInput = document.querySelector(".chatbox-footer textarea");
 const sendChatBtn = document.getElementById("sendButton");
 const menuButton = document.getElementById("menuButton");
 const sidebar = document.querySelector(".sidebar");
-const attachButton = document.querySelector(".attach-button");
 
 const API_KEY = "AIzaSyDMJ5A2c8hmDW3ZPirDO6Q51O5K_2mdf3Q"; // Replace with your Gemini API key
 
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendButton = document.getElementById("sendButton");
 
     const showChatbox = () => {
-        chatbox.classList.add("active"); // Show the chatbox
+        chatbox.classList.remove("hidden");
         document.querySelector(".faq-buttons").style.display = "none"; // Hide FAQ buttons after first prompt
     };
 
@@ -55,20 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
     sendButton.addEventListener("click", () => {
         const message = chatInput.value.trim();
         if (message) {
-            showChatbox();
             handleChat(message);
             chatInput.value = "";
             sendButton.classList.remove("active");
             sendButton.disabled = true;
         }
     });
-
-    attachButton.addEventListener("click", () => {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener("change", handleFileUpload);
-    });
+});
 
 const addMessage = (sender, message) => {
     const chatList = document.querySelector(".chat-list");
@@ -86,6 +78,9 @@ const createChatElement = (message, sender) => {
     let content = `<div class="content">${message}</div>`;
     if (sender != "user") {
         content = `<img src="../images/bot-profile.png" alt="Bot">` + content;
+        if (message === "...") {
+            content += '<span class="shining-dots"><span></span><span></span><span></span></span>';
+        }
     }
     messageElement.innerHTML = content;
     
@@ -147,55 +142,6 @@ chatInput.addEventListener("keydown", (e) => {
         }
     }
 });
-
-const express = require('express');
-const multer = require('multer');
-const app = express();
-const port = 3000;
-
-// Set up multer for file uploads
-const upload = multer({ dest: 'uploads/' });
-
-app.post('/upload', upload.single('file'), (req, res) => {
-    console.log('File received:', req.file);
-    res.json({ message: 'File upload successful', file: req.file });
-});
-
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
-
-const fileInput = document.getElementById("fileInput");
-
-fileInput.addEventListener("change", handleFileUpload);
-
-function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        console.log("File uploaded:", file);
-
-        // Create a FormData object and append the file
-        const formData = new FormData();
-        formData.append("file", file);
-
-        // Send the file to the server using the Fetch API
-        fetch("/upload", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("File upload successful:", data);
-            // Handle successful upload response
-            alert('File uploaded successfully!');
-        })
-        .catch(error => {
-            console.error("File upload error:", error);
-            // Handle upload error
-            alert('File upload failed. Please try again.');
-        });
-    }
-}
 
 sendChatBtn.addEventListener("click", () => {
     const message = chatInput.value.trim();

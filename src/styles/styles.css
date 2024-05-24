@@ -82,7 +82,7 @@ html, body {
 
 .chatbox {
     width: 100%;
-    max-width: 900px; /* Limit chatbox width */
+    max-width: 800px; /* Limit chatbox width */
     border: 2px solid #1A1F4A; /* Updated to the new primary color */
     border-radius: 10px;
     background-color: white;
@@ -92,6 +92,7 @@ html, body {
     height: calc(100vh - 50px); /* Full viewport height minus the gap */
     margin: 10px 0; /* Gap at the top and bottom */
     position: relative;
+    overflow: hidden;
 }
 
 .chatbox.hidden {
@@ -224,12 +225,12 @@ html, body {
 }
 
 .send-button {
-    background-color: #1A1F4A; /* Background color */
+    background-color: #0b0c19; /* Background color */
     border: none;
     cursor: pointer;
     width: 40px; /* Set width and height for a circular button */
     height: 40px;
-    border-radius: 50%; /* Make it circular */
+    border-radius: 50%; /* Make hover effect circular */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -237,7 +238,7 @@ html, body {
     transition: opacity 0.3s ease-in-out; /* Transition for opacity */
     margin-right: 22px; /* Leave a gap of 15px from the right */
     margin-top: auto; /* Align vertically in the middle */
-    margin-bottom: auto; /* Align vertically in the middle */
+    margin-bottom: 15px; /* Align vertically in the middle */
     padding: 0; /* Remove any padding */
 }
 
@@ -250,6 +251,7 @@ html, body {
 
 .send-button:hover {
     opacity: 0.6; /* Increase opacity on hover */
+    border-radius: 50%; /* Make hover effect circular */
 }
 
 .send-button.active {
@@ -290,22 +292,21 @@ html, body {
     height: 45px; /* Increase height to 45px */
 }
 
-/* General styling reset for buttons */
 .attach-button {
-    background-color: #1A1F4A; /* Background color */
+    background-color: #000; /* Background color */
     border: none;
     cursor: pointer;
     width: 40px; /* Set width and height for a circular button */
     height: 40px;
-    border-radius: 50%; /* Make it circular */
+    border-radius: 50%; /* Make hover effect circular */
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0.4; /* Set initial opacity */
     transition: opacity 0.3s ease-in-out; /* Transition for opacity */
-    margin-left: 22px; /* Leave a gap of 22px from the left */
+    margin-left: 15px; /* Leave a gap of 15px from the left */
     margin-top: auto; /* Align vertically in the middle */
-    margin-bottom: auto; /* Align vertically in the middle */
+    margin-bottom: 15px; /* Align vertically in the middle */
     padding: 0; /* Remove any padding */
 }
 
@@ -317,6 +318,7 @@ html, body {
 
 .attach-button:hover {
     opacity: 0.6; /* Increase opacity on hover */
+    border-radius: 50%; /* Make hover effect circular */
 }
 
 .attach-button.active {
